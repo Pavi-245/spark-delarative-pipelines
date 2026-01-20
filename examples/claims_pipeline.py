@@ -1,7 +1,3 @@
-## 📝 Step 4: Python Example Files (`examples/`)
-
-### `examples/claims_pipeline.py`
-```python
 from pyspark import pipelines as sdp
 
 @sdp.table

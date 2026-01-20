@@ -21,10 +21,11 @@ joined = claims.join(policies, "policy_id")
 aggregated = joined.groupBy("region").count()
 
 aggregated.write.mode("overwrite").saveAsTable("claims_by_region")
+```
 Here, the developer manually controls each step of the pipeline: reading, joining, aggregating, and writing.
 
-Declarative Example (SDP)
-python
+## Declarative Example (SDP)
+```python
 from pyspark import pipelines as sdp
 
 @sdp.materialized_view(name="claims_by_region")
@@ -35,6 +36,7 @@ def claims_by_region():
              .groupBy("region")
              .count()
     )
+```
 Here, the desired output is declared, and SDP automatically handles orchestration, retries, and dependencies.
 
 Reinsurance Context

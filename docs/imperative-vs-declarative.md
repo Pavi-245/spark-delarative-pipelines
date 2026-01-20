@@ -1,8 +1,23 @@
-# Imperative vs Declarative Programming in SDP
+# Imperative vs Declarative Pipelines in SDP
 
-| Aspect | Imperative Approach | Declarative Approach |
-|--------|---------------------|----------------------|
-| **Focus** | Explicitly coding each step of data ingestion, transformation, and output | Defining desired tables/views and letting SDP orchestrate execution |
-| **Control** | Developer manages orchestration, error handling, and dependencies | SDP automatically handles orchestration, retries, and dependencies |
-| **Example** | `df = spark.read.csv(...); df.write.save(...)` | `@sdp.materialized_view def claims_mv(): return spark.table("claims")` |
-| **Reinsurance Context** | Manually coding ingestion of claims, policies, and treaties | Declaring flows for claims, policies, and treaty exposures, SDP ensures consistency |
+## Conceptual Difference
+
+| Approach       | Imperative | Declarative |
+|----------------|------------|-------------|
+| Style          | Step-by-step instructions | Define desired end state |
+| Control        | Developer manages execution | SDP orchestrates automatically |
+| Example        | Explicit Spark jobs | SDP pipeline spec + decorators |
+
+---
+
+## Imperative Example (Manual Spark Job)
+
+```python
+# Imperative: explicitly control ETL
+claims = spark.read.csv("/data/reinsurance/claims.csv", header=True)
+policies = spark.read.csv("/data/reinsurance/policies.csv", header=True)
+
+joined = claims.join(policies, "policy_id")
+aggregated = joined.groupBy("region").count()
+
+aggregated.write.mode("overwrite").saveAsTable("claims_by_region")

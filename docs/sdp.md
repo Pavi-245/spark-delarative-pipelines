@@ -13,6 +13,7 @@ Spark automatically handles:
 	•	compute management
 	•	incremental processing
 	•	error handling
+	
 This shift from execution‑first to intent‑first is exactly the philosophy Palantir Foundry has been built on for years.
 
 

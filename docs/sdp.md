@@ -1,15 +1,15 @@
 ## Self Declarative Pipeline: A Palantir Foundry Perspective
 This repository provides a structured, end‑to‑end overview of Spark Declarative Pipelines (SDP) introduced in Spark 4.1, using reinsurance‑domain examples and explaining why SDP aligns naturally with Palantir Foundry’s data‑platform philosophy.
-The intent is twofold:
+The intent is two fold:
 	•	Serve as a technical reference for SDP concepts and examples
 	•	Explain why Palantir teams are especially well‑positioned to adopt SDP
 
-Overview
+## Overview
 Data engineering is moving away from job‑centric pipelines toward dataset‑centric systems.
 With Spark 4.1, Declarative Pipelines (SDP) formalize this shift. Instead of explicitly handling execution order, scheduling, and retries, engineers declare what datasets should exist and how they are derived. Spark handles the rest.
 For engineers working with Palantir Foundry, this model will feel immediately familiar.
 
-What is Spark Declarative Pipelines (SDP)?
+## What is Spark Declarative Pipelines (SDP)?
 Spark Declarative Pipelines (SDP) is a declarative framework for building reliable, maintainable, and testable data pipelines on Apache Spark.
 Rather than writing orchestration logic, SDP lets you describe intent:
 	•	What datasets should exist
@@ -24,7 +24,7 @@ This mirrors the Palantir Foundry philosophy:
   Image Declare the data product. Let the platform manage execution.
 ​
 
-What SDP Supports
+## What SDP Supports
 SDP is designed for both batch and streaming workloads and supports common enterprise use cases:
 	•	Data ingestion from cloud storage\(Amazon S3, Azure ADLS Gen2, Google Cloud Storage)
 	•	Data ingestion from message buses\(Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure EventHub)
@@ -40,7 +40,7 @@ SDP brings these same principles directly into open‑source Spark.
   Image Foundry‑style pipeline semantics become native Spark semantics with SDP.
 ​
 
-Dataflow Graph
+## Dataflow Graph
 Every SDP pipeline is represented as a dataflow graph:
 	•	Nodes → datasets (tables or views)
 	•	Edges → flows (transformations)
@@ -51,8 +51,8 @@ Spark automatically:
 	•	Parallelizes execution when possible
 No explicit orchestration is required.
 
-Key Concepts in SDP
-Flows
+## Key Concepts in SDP
+### Flows
 A flow is the fundamental unit of data processing in SDP.
 A flow:
 	•	Reads from a source

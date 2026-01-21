@@ -164,7 +164,7 @@ FROM reinsurancesource.policies_curated;
 ```
  
 ## Creating a Temporary View (Intermediate)
- ```sql
+```sql
 CREATE TEMPORARY VIEW policytreatymaptv
 AS
 SELECT
@@ -176,10 +176,9 @@ FROM policiesmv p
 JOIN treaties_mv t
   ON p.region = t.region
 AND p.lob    = t.lob;
-``` 
+```
 
 ## Creating a Streaming Table
-
 ```sql 
 CREATE STREAMING TABLE rawclaimsst
 AS
@@ -194,9 +193,9 @@ SELECT
 FROM STREAM reinsurancesource.claims_events;
 ```
 
-4) Querying Tables in the Pipeline — Enrich → Aggregate
+## Querying Tables in the Pipeline — Enrich → Aggregate
 Enriched claims (batch MV consuming streaming):
- 
+```sql
 CREATE MATERIALIZED VIEW claimsenrichedmv
 AS
 SELECT
@@ -212,7 +211,7 @@ LEFT JOIN policytreatymaptv m
   ON c.policyid = m.policy_id
 AND c.region    = m.region
 AND c.lob       = m.lob;
-``
+```
  
 Treaty loss allocation (illustrative share):
  

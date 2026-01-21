@@ -14,12 +14,13 @@ Spark Declarative Pipelines (SDP) is a declarative framework for building reliab
 Rather than writing orchestration logic, SDP lets you describe intent:
 - What datasets should exist
 - What transformations define them
+  
 Spark automatically manages:
 - Dependency resolution
 - Execution ordering
-	•	Incremental processing
-	•	Error handling
-	•	Parallelization
+- Incremental processing
+- Error handling
+- Parallelization
 This mirrors the Palantir Foundry philosophy:
   Declare the data product,let the platform manage execution.
 ​

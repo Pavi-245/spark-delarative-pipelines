@@ -1,4 +1,4 @@
-#What is Spark Declarative Pipelines (SDP)?
+# What is Spark Declarative Pipelines (SDP)?
 Spark Declarative Pipelines (SDP) is a declarative framework for building reliable, maintainable, and testable data pipelines on Apache Spark.
 Instead of focusing on:
 	•	job ordering

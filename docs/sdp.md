@@ -140,9 +140,9 @@ spark-pipelines run
 ```
 
 Spark:
--Builds the dependency graph
--Executes flows in order
--Monitors execution
+- Builds the dependency graph
+- Executes flows in order
+- Monitors execution
 
 
 # Programming with SDP in SQL (Reinsurance Examples)

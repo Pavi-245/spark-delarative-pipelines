@@ -19,10 +19,10 @@ Spark automatically manages:
 - Dependency resolution
 - Execution ordering
 - Incremental processing
-- Error handling l
+- Error handling 
 - Parallelization
 
-This mirrors the Palantir Foundry philosophy: l
+This mirrors the Palantir Foundry philosophy:
   Declare the data product,let the platform manage execution.
 ​
 

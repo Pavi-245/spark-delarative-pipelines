@@ -211,7 +211,7 @@ LEFT JOIN policytreatymaptv m
 AND c.region    = m.region
 AND c.lob       = m.lob;
 ```
- 
+
 ### Treaty loss allocation (illustrative share):
 ```sql
 CREATE MATERIALIZED VIEW treatyallocationsmv
@@ -237,7 +237,6 @@ SELECT
 FROM treatyallocationsmv
 GROUP BY treatyid, lossdate;
 ```
- 
 
 ## Using Multiple Flows to Write to a Single Target — Multi‑Cedant
 ``` sql

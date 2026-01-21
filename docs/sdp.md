@@ -300,17 +300,17 @@ for region in regionlist:
         )
 ```
 
-## Using Multiple Flows to Write to a Single Target — Multi‑Cedant
+## Using Multiple Flows to Write to a Single Target
 ```python 
 #Create the unified streaming target
 sdp.createstreamingtable("claimsconsolidatedst")
  
-#Cedant A → unified table
+#Cedant A unified table
 @sdp.appendflow(target="claimsconsolidatedst")
 def cedantaappend():
     return spark.readStream.table("cedantaclaimsst")  # already normalized schema
  
-#Cedant B → unified table
+#Cedant B unified table
 @sdp.appendflow(target="claimsconsolidatedst")
 def cedantbappend():
     return spark.readStream.table("cedantbclaimsst")
@@ -409,12 +409,12 @@ FROM treatyallocationsmv
 GROUP BY treatyid, lossdate;
 ```
 
-## Using Multiple Flows to Write to a Single Target — Multi‑Cedant
+## Using Multiple Flows to Write to a Single Target
 ``` sql
 -- Unified streaming target
 CREATE STREAMING TABLE claimsconsolidatedst;
  
--- Cedant A → unified
+-- Cedant A unified
 CREATE FLOW appendcedanta
 AS INSERT INTO claimsconsolidatedst
 SELECT
@@ -426,7 +426,7 @@ SELECT
   lob
 FROM STREAM cedantaclaimsst;
  
--- Cedant B → unified
+-- Cedant B unified
 CREATE FLOW appendcedantb
 AS INSERT INTO claimsconsolidatedst
 SELECT

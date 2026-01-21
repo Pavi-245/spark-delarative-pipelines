@@ -64,7 +64,7 @@ Example (SQL):
 ```sql
 CREATE STREAMING TABLE claimsenriched
 AS SELECT * FROM STREAM rawclaims;
- 
+```
 This statement:
 	•	Creates a streaming table
 	•	Defines the flow

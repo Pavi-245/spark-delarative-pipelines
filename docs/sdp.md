@@ -59,6 +59,77 @@ A flow:
 	•	Applies user‑defined logic
 	•	Writes to a target dataset
 	•	Supports both batch and streaming semantics
+Example (SQL):
+ 
+CREATE STREAMING TABLE claimsenriched
+AS SELECT * FROM STREAM rawclaims;
+``
+ 
+This statement:
+	•	Creates a streaming table
+	•	Defines the flow
+	•	Registers the dependency on raw_claims
+
+### Datasets
+A dataset is a queryable output produced by one or more flows.
+SDP defines three types of datasets:
+Streaming Tables
+	•	Incremental processing
+	•	Only new data is processed
+Materialized Views
+	•	Batch‑computed
+	•	Exactly one writing flow
+	•	Persisted as tables
+Temporary Views
+	•	Execution‑scoped
+	•	Used for intermediate transformations
+	•	Not persisted outside the pipeline
+
+### Pipelines
+A pipeline is the primary unit of development and execution in SDP.
+A pipeline:
+	•	Contains flows, tables, and views
+	•	Automatically resolves dependencies
+	•	Orchestrates execution
+	•	Supports parallelism
+This is very similar to how Foundry pipelines automatically recompute downstream assets when upstream data changes.
+
+### Pipeline Projects
+A pipeline project consists of:
+	•	Python and/or SQL files that define datasets
+	•	A YAML pipeline specification
+
+Pipeline Specification (pipeline.yml)
+ 
+name: reinsurance_pipeline
+definitions:
+  - glob:
+      include: transformations//.py
+  - glob:
+      include: transformations//.sql
+database: reinsurance
+configuration:
+  spark.sql.shuffle.partitions: "1000"
+ 
+This structure resembles Foundry pipeline configuration:
+	•	Centralized configuration
+	•	Clear code boundaries
+	•	Predictable outputs
+
+The spark-pipelines CLI
+SDP pipelines are executed using the spark-pipelines CLI, built on top of spark-submit.
+Initialize the Pipeline Project
+spark-pipelines init --name reinsurance_pipeline
+Creates:
+	•	A default project structure
+	•	pipeline.yml
+	•	Example transformation files
+Run the Pipeline
+spark-pipelines run
+Spark:
+	•	Builds the dependency graph
+	•	Executes flows in order
+	•	Monitors execution automatically
 
 
 # SDP Examples in Reinsurance

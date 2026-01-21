@@ -61,10 +61,9 @@ A flow:
 	•	Writes to a target dataset
 	•	Supports both batch and streaming semantics
 Example (SQL):
- 
+```sql
 CREATE STREAMING TABLE claimsenriched
 AS SELECT * FROM STREAM rawclaims;
-``
  
 This statement:
 	•	Creates a streaming table

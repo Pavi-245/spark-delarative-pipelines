@@ -301,20 +301,20 @@ for region in regionlist:
 ```
 
 ## Using Multiple Flows to Write to a Single Target — Multi‑Cedant
- 
-# 1) Create the unified streaming target
+```python 
+#Create the unified streaming target
 sdp.createstreamingtable("claimsconsolidatedst")
  
-# 2) Cedant A → unified table
+#Cedant A → unified table
 @sdp.appendflow(target="claimsconsolidatedst")
 def cedantaappend():
     return spark.readStream.table("cedantaclaimsst")  # already normalized schema
  
-# 3) Cedant B → unified table
+#Cedant B → unified table
 @sdp.appendflow(target="claimsconsolidatedst")
 def cedantbappend():
     return spark.readStream.table("cedantbclaimsst")
-
+```
 
 # Programming with SDP in SQL (Reinsurance Examples)
 ## Creating a Materialized View (Batch) 

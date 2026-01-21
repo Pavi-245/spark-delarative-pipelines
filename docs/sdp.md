@@ -144,6 +144,179 @@ Spark:
 - Executes flows in order
 - Monitors execution
 
+# Programming with SDP in Python (Reinsurance Examples)
+## Import the SDP Python API
+```python
+from pyspark import pipelines as sdp
+```
+## Creating a Materialized View (Batch)
+### Policies master (batch):
+```python 
+@sdp.materializedview
+def policiesmv():
+    # Curated, stable policy master data
+    return spark.read.format("parquet").load("/reinsurance/reference/policies")
+```
+
+## Creating a Materialized View (Batch) — With Name
+### Treaties master (batch) with explicit name:
+```python 
+@sdp.materializedview(name="treatiesmv")
+def treaties():
+    return spark.read.format("delta").load("/reinsurance/reference/treaties")
+```
+ 
+## Creating a Temporary View — Intermediate Enrichment
+### Claims enriched with policy context (execution‑scoped):
+```python 
+from pyspark.sql.functions import col, to-date, from_json
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType
+ 
+@sdp.temporaryview
+def claimsenrichedtv():
+    # If raw claims arrive via Kafka, parse JSON payload here
+    schema = StructType([
+        StructField("claimid", StringType()),
+        StructField("policyid", StringType()),
+        StructField("eventts", StringType()),
+        StructField("lossamount", DoubleType()),
+        StructField("region", StringType()),
+        StructField("lob", StringType())
+    ])
+ 
+    return (
+        spark.table("rawclaimsst")
+        .selectExpr("CAST(value AS STRING) AS payload")
+        .select(fromjson(col("payload"), schema).alias("r"))
+        .select("r.*")
+        .join(spark.table("policiesmv"), "policyid", "left")
+        .select(
+            "claimid",
+            "policyid",
+            todate(col("eventts")).alias("lossdate"),
+            col("lossamount").alias("gross_loss"),
+            "region", "lob"
+        )
+    )
+```
+
+## Creating a Streaming Table — Raw Claims
+```python 
+@sdp.table(name="rawclaimsst")
+def rawclaims():
+    return (
+        spark.readStream
+        .format("kafka")
+        .option("kafka.bootstrap.servers", "broker1:9092,broker2:9092")
+        .option("subscribe", "claimsevents")
+        .option("startingOffsets", "latest")
+        .load()
+    )
+```
+
+## Loading from a Streaming Source — Cessions
+```python 
+@sdp.table(name="rawcessionsst")
+def rawcessions():
+    return (
+        spark.readStream
+        .format("kafka")
+        .option("kafka.bootstrap.servers", "broker:9092")
+        .option("subscribe", "cessionsevents")
+        .load()
+    )
+```
+ 
+### Batch Reads — Exposure Schedules
+```python 
+@sdp.materializedview(name="exposureschedulesmv")
+def exposureschedules():
+    return (
+        spark.read.format("csv")
+        .option("header", True)
+        .load("/reinsurance/exposure/schedules")
+    )
+``` 
+
+## Querying Tables Defined in Your Pipeline
+Stream claims → enrich → allocate to treaty → daily treaty loss
+ 
+from pyspark.sql.functions import col, sum as ssum, coalesce, lit
+ 
+@sdp.materializedview(name="claimswithtreatiesmv")
+def claimswithtreaties():
+    # Reference mapping of policy/region/lob to treaty
+    mapdf = spark.read.format("delta").load("/reinsurance/reference/policytreatymapping")
+ 
+    return (
+        spark.table("claimsenrichedtv")
+        .join(mapdf, ["policyid", "region", "lob"], "left")
+        .join(spark.table("treatiesmv"), "treatyid", "left")
+        .select(
+            "claimid",
+            "policyid",
+            "treatyid",
+            "lossdate",
+            col("grossloss"),
+            coalesce(col("share"), lit(1.0)).alias("treatyshare")
+        )
+    )
+ 
+@sdp.materializedview(name="dailytreatylossesmv")
+def dailytreatylosses():
+    return (
+        spark.table("claimswithtreatiesmv")
+        .withColumn("treatyloss", col("grossloss") * col("treatyshare"))
+        .groupBy("treatyid", "lossdate")
+        .agg(ssum("treatyloss").alias("dailytreatyloss"))
+    )
+ 
+
+9) Creating Tables in a For Loop — Region‑Specific Outputs
+  Image ⚠️ SDP rule: The loop’s value list must be additive over time. Avoid non‑deterministic or shrinking lists.
+​
+ 
+from pyspark.sql.functions import collectlist
+ 
+@sdp.temporaryview
+def regionstv():
+    # Curated table of valid regions
+    return spark.read.format("delta").load("/reinsurance/reference/regions")
+ 
+# Extract region names as metadata (outside dataset functions is OK)
+regionlist = (
+    spark.table("regionstv")
+    .select(collectlist("regionname"))
+    .collect()[0][0]
+)
+ 
+for region in regionlist:
+    safe = region.lower().replace(" ", "")
+ 
+    @sdp.materializedview(name=f"dailytreatylosses{safe}mv")
+    def perregiondailylosses(regionfilter=region):
+        return (
+            spark.table("dailytreatylossesmv")
+            .join(spark.table("treatiesmv"), "treatyid")
+            .filter(f"region = '{regionfilter}'")
+        )
+ 
+
+10) Using Multiple Flows to Write to a Single Target — Multi‑Cedant
+ 
+# 1) Create the unified streaming target
+sdp.createstreamingtable("claimsconsolidatedst")
+ 
+# 2) Cedant A → unified table
+@sdp.appendflow(target="claimsconsolidatedst")
+def cedantaappend():
+    return spark.readStream.table("cedantaclaimsst")  # already normalized schema
+ 
+# 3) Cedant B → unified table
+@sdp.appendflow(target="claimsconsolidatedst")
+def cedantbappend():
+    return spark.readStream.table("cedantbclaimsst")
+
 
 # Programming with SDP in SQL (Reinsurance Examples)
 ## Creating a Materialized View (Batch) 

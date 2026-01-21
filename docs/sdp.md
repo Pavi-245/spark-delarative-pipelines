@@ -1,4 +1,4 @@
-A Palantir‑Inspired Way to Build Reinsurance Data Pipelines
+## Self Declarative Pipeline: A Palantir Foundry Perspective
 This repository provides a structured, end‑to‑end overview of Spark Declarative Pipelines (SDP) introduced in Spark 4.1, using reinsurance‑domain examples and explaining why SDP aligns naturally with Palantir Foundry’s data‑platform philosophy.
 The intent is twofold:
 	•	Serve as a technical reference for SDP concepts and examples

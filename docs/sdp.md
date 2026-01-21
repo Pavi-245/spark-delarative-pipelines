@@ -21,7 +21,7 @@ Spark automatically manages:
 	•	Error handling
 	•	Parallelization
 This mirrors the Palantir Foundry philosophy:
-  Image Declare the data product. Let the platform manage execution.
+  Declare the data product,let the platform manage execution.
 ​
 
 ## What SDP Supports
@@ -30,14 +30,15 @@ SDP is designed for both batch and streaming workloads and supports common enter
 	•	Data ingestion from message buses\(Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure EventHub)
 	•	Incremental batch and streaming transformations
 
-Why SDP Matters (Especially at Palantir)
+## Why SDP Matters (Especially at Palantir)
 Palantir data platforms emphasize:
 	•	Dataset lineage
 	•	Ontology‑driven modeling
 	•	Incremental recomputation
 	•	A strict separation between what data represents and how it is computed
+	
 SDP brings these same principles directly into open‑source Spark.
-  Image Foundry‑style pipeline semantics become native Spark semantics with SDP.
+  Foundry‑style pipeline semantics become native Spark semantics with SDP.
 ​
 
 ## Dataflow Graph
@@ -78,8 +79,8 @@ Streaming Tables
 	•	Only new data is processed
 Materialized Views
 	•	Batch‑computed
-	•	Exactly one writing flow
-	•	Persisted as tables
+	•	Exactly one flow
+	•	Stored as a table
 Temporary Views
 	•	Execution‑scoped
 	•	Used for intermediate transformations
@@ -99,7 +100,7 @@ A pipeline project consists of:
 	•	Python and/or SQL files that define datasets
 	•	A YAML pipeline specification
 
-Pipeline Specification (pipeline.yml)
+### Pipeline Specification (pipeline.yml)
  
 name: reinsurance_pipeline
 definitions:
@@ -116,15 +117,15 @@ This structure resembles Foundry pipeline configuration:
 	•	Clear code boundaries
 	•	Predictable outputs
 
-The spark-pipelines CLI
+## The spark-pipelines CLI
 SDP pipelines are executed using the spark-pipelines CLI, built on top of spark-submit.
-Initialize the Pipeline Project
+### Initialize the Pipeline Project
 spark-pipelines init --name reinsurance_pipeline
 Creates:
 	•	A default project structure
 	•	pipeline.yml
 	•	Example transformation files
-Run the Pipeline
+### Run the Pipeline
 spark-pipelines run
 Spark:
 	•	Builds the dependency graph

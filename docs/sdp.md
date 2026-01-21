@@ -106,7 +106,6 @@ A pipeline project consists of:
 - A YAML pipeline specification
 
 ### Pipeline Specification (pipeline.yml)
- 
 ```yaml
 name: reinsurance_pipeline
 definitions:

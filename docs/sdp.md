@@ -1,5 +1,5 @@
 ## Self Declarative Pipeline: A Palantir Foundry Perspective
-This repository provides a structured, end‑to‑end overview of Spark Declarative Pipelines (SDP) introduced in Spark 4.1, using reinsurance‑domain examples and explaining why SDP aligns naturally with Palantir Foundry’s data‑platform philosophy.
+This repository provides a structured, end to end overview of Spark Declarative Pipelines (SDP) introduced in Spark 4.1, using reinsurance‑domain examples and explaining why SDP aligns naturally with Palantir Foundry’s data‑platform philosophy.
 The intent is two fold:
 - Serve as a technical reference for SDP concepts and examples
 - Explain why Palantir teams are especially well‑positioned to adopt SDP
@@ -169,7 +169,7 @@ def treaties():
 ## Creating a Temporary View — Intermediate Enrichment
 ### Claims enriched with policy context (execution‑scoped):
 ```python 
-from pyspark.sql.functions import col, to-date, from_json
+from pyspark.sql.functions import col, to_date, from_json
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType
  
 @sdp.temporaryview

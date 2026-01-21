@@ -111,7 +111,8 @@ definitions:
 database: reinsurance
 configuration:
   spark.sql.shuffle.partitions: "1000"
-``` 
+```
+
 This structure resembles Foundry pipeline configuration:
 	•	Centralized configuration
 	•	Clear code boundaries

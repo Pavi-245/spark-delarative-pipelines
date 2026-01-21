@@ -236,11 +236,11 @@ def exposureschedules():
         .option("header", True)
         .load("/reinsurance/exposure/schedules")
     )
-``` 
+```
 
 ## Querying Tables Defined in Your Pipeline
 Stream claims → enrich → allocate to treaty → daily treaty loss
- 
+```python 
 from pyspark.sql.functions import col, sum as ssum, coalesce, lit
  
 @sdp.materializedview(name="claimswithtreatiesmv")
@@ -270,12 +270,10 @@ def dailytreatylosses():
         .groupBy("treatyid", "lossdate")
         .agg(ssum("treatyloss").alias("dailytreatyloss"))
     )
- 
+```
 
-9) Creating Tables in a For Loop — Region‑Specific Outputs
-  Image ⚠️ SDP rule: The loop’s value list must be additive over time. Avoid non‑deterministic or shrinking lists.
-​
- 
+## Creating Tables in a For Loop — Region‑Specific Outputs
+```python 
 from pyspark.sql.functions import collectlist
  
 @sdp.temporaryview
@@ -300,9 +298,9 @@ for region in regionlist:
             .join(spark.table("treatiesmv"), "treatyid")
             .filter(f"region = '{regionfilter}'")
         )
- 
+```
 
-10) Using Multiple Flows to Write to a Single Target — Multi‑Cedant
+## Using Multiple Flows to Write to a Single Target — Multi‑Cedant
  
 # 1) Create the unified streaming target
 sdp.createstreamingtable("claimsconsolidatedst")

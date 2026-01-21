@@ -272,7 +272,7 @@ def dailytreatylosses():
     )
 ```
 
-## Creating Tables in a For Loop — Region‑Specific Outputs
+## Creating Tables in a For Loop — Region Specific Outputs
 ```python 
 from pyspark.sql.functions import collectlist
  

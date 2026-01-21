@@ -144,6 +144,7 @@ Spark:
 -Executes flows in order
 -Monitors execution
 
+
 # Programming with SDP in SQL (Reinsurance Examples)
 ## Creating a Materialized View (Batch)
  
@@ -162,8 +163,8 @@ SELECT
 FROM reinsurancesource.policies_curated;
 ```
  
-2) Creating a Temporary View (Intermediate)
- 
+## Creating a Temporary View (Intermediate)
+ ```sql
 CREATE TEMPORARY VIEW policytreatymaptv
 AS
 SELECT
@@ -175,10 +176,11 @@ FROM policiesmv p
 JOIN treaties_mv t
   ON p.region = t.region
 AND p.lob    = t.lob;
- 
+``` 
 
-3) Creating a Streaming Table
- 
+## Creating a Streaming Table
+
+```sql 
 CREATE STREAMING TABLE rawclaimsst
 AS
 SELECT
@@ -190,7 +192,7 @@ SELECT
   region,
   lob
 FROM STREAM reinsurancesource.claims_events;
- 
+```
 
 4) Querying Tables in the Pipeline — Enrich → Aggregate
 Enriched claims (batch MV consuming streaming):

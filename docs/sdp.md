@@ -194,7 +194,7 @@ FROM STREAM reinsurancesource.claims_events;
 ```
 
 ## Querying Tables in the Pipeline — Enrich → Aggregate
-Enriched claims (batch MV consuming streaming):
+### Enriched claims (batch MV consuming streaming):
 ```sql
 CREATE MATERIALIZED VIEW claimsenrichedmv
 AS
@@ -213,8 +213,8 @@ AND c.region    = m.region
 AND c.lob       = m.lob;
 ```
  
-Treaty loss allocation (illustrative share):
- 
+### Treaty loss allocation (illustrative share):
+```sql
 CREATE MATERIALIZED VIEW treatyallocationsmv
 AS
 SELECT
@@ -225,9 +225,9 @@ FROM claimsenrichedmv e
 LEFT JOIN treatiesmv t
   ON e.treatyid = t.treatyid
 GROUP BY e.treatyid, e.lossdate;
- 
-Daily treaty loss (final analytics):
- 
+```
+### Daily treaty loss (final analytics):
+```sql 
 CREATE MATERIALIZED VIEW dailytreatylossesmv
 AS
 SELECT
@@ -236,10 +236,10 @@ SELECT
   SUM(treatyloss) AS dailytreatyloss
 FROM treatyallocationsmv
 GROUP BY treatyid, lossdate;
-``
+```
  
 
-5) Using Multiple Flows to Write to a Single Target — Multi‑Cedant
+## Using Multiple Flows to Write to a Single Target — Multi‑Cedant
  
 -- Unified streaming target
 CREATE STREAMING TABLE claimsconsolidatedst;

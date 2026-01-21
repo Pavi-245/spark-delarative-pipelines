@@ -19,10 +19,10 @@ Spark automatically manages:
 - Dependency resolution
 - Execution ordering
 - Incremental processing
-- Error handling
+- Error handling l
 - Parallelization
 
-This mirrors the Palantir Foundry philosophy:
+This mirrors the Palantir Foundry philosophy: l
   Declare the data product,let the platform manage execution.
 ​
 
@@ -225,7 +225,7 @@ FROM claimsenrichedmv e
 LEFT JOIN treatiesmv t
   ON e.treatyid = t.treatyid
 GROUP BY e.treatyid, e.lossdate;
-```
+``` '
 ### Daily treaty loss (final analytics):
 ```sql 
 CREATE MATERIALIZED VIEW dailytreatylossesmv

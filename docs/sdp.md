@@ -121,13 +121,19 @@ This structure resembles Foundry pipeline configuration:
 ## The spark-pipelines CLI
 SDP pipelines are executed using the spark-pipelines CLI, built on top of spark-submit.
 ### Initialize the Pipeline Project
+```bash
 spark-pipelines init --name reinsurance_pipeline
+```
+
 Creates:
 	•	A default project structure
 	•	pipeline.yml
 	•	Example transformation files
 ### Run the Pipeline
+```bash
 spark-pipelines run
+```
+
 Spark:
 	•	Builds the dependency graph
 	•	Executes flows in order

@@ -16,6 +16,12 @@ Spark automatically handles:
 	
 This shift from execution‑first to intent‑first is exactly the philosophy Palantir Foundry has been built on for years.
 
+## What SDP Supports
+SDP is designed for both batch and streaming workloads, including:
+	•	Cloud storage ingestion\ Amazon S3, Azure ADLS Gen2, Google Cloud Storage
+	•	Message‑bus ingestion\ Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure EventHub
+	•	Incremental batch and streaming transformations
+These are the same primitives we commonly use in Palantir Foundry — but here they are expressed directly in Spark’s core programming model.
 
 
 

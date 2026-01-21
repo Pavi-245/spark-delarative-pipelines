@@ -21,22 +21,23 @@ Spark automatically manages:
 - Incremental processing
 - Error handling
 - Parallelization
+
 This mirrors the Palantir Foundry philosophy:
   Declare the data product,let the platform manage execution.
 ​
 
 ## What SDP Supports
 SDP is designed for both batch and streaming workloads and supports common enterprise use cases:
-	•	Data ingestion from cloud storage\(Amazon S3, Azure ADLS Gen2, Google Cloud Storage)
-	•	Data ingestion from message buses\(Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure EventHub)
-	•	Incremental batch and streaming transformations
+- Data ingestion from cloud storage\(Amazon S3, Azure ADLS Gen2, Google Cloud Storage)
+- Data ingestion from message buses\(Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure EventHub)
+- Incremental batch and streaming transformations
 
 ## Why SDP Matters (Especially at Palantir)
 Palantir data platforms emphasize:
-	•	Dataset lineage
-	•	Ontology‑driven modeling
-	•	Incremental recomputation
-	•	A strict separation between what data represents and how it is computed
+- Dataset lineage
+- Ontology‑driven modeling
+- Incremental recomputation
+- A strict separation between what data represents and how it is computed
 	
 SDP brings these same principles directly into open‑source Spark.
   Foundry‑style pipeline semantics become native Spark semantics with SDP.
@@ -44,23 +45,24 @@ SDP brings these same principles directly into open‑source Spark.
 
 ## Dataflow Graph
 Every SDP pipeline is represented as a dataflow graph:
-	•	Nodes → datasets (tables or views)
-	•	Edges → flows (transformations)
+- Nodes → datasets (tables or views)
+- Edges → flows (transformations)
 Spark automatically:
-	•	Builds the DAG
-	•	Resolves dependencies
-	•	Executes flows in the correct order
-	•	Parallelizes execution when possible
+- Builds the DAG
+- Resolves dependencies
+- Executes flows in the correct order
+- Parallelizes execution when possible
+  
 No explicit orchestration is required.
 
 ## Key Concepts in SDP
 ### Flows
 A flow is the fundamental unit of data processing in SDP.
 A flow:
-	•	Reads from a source
-	•	Applies user‑defined logic
-	•	Writes to a target dataset
-	•	Supports both batch and streaming semantics
+- Reads from a source
+- Applies user‑defined logic
+- Writes to a target dataset
+- Supports both batch and streaming semantics
 Example (SQL):
 ```sql
 CREATE STREAMING TABLE claimsenriched

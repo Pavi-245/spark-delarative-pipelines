@@ -1,31 +1,64 @@
-# What is Spark Declarative Pipelines (SDP)?
+A Palantir‑Inspired Way to Build Reinsurance Data Pipelines
+This repository provides a structured, end‑to‑end overview of Spark Declarative Pipelines (SDP) introduced in Spark 4.1, using reinsurance‑domain examples and explaining why SDP aligns naturally with Palantir Foundry’s data‑platform philosophy.
+The intent is twofold:
+	•	Serve as a technical reference for SDP concepts and examples
+	•	Explain why Palantir teams are especially well‑positioned to adopt SDP
+
+Overview
+Data engineering is moving away from job‑centric pipelines toward dataset‑centric systems.
+With Spark 4.1, Declarative Pipelines (SDP) formalize this shift. Instead of explicitly handling execution order, scheduling, and retries, engineers declare what datasets should exist and how they are derived. Spark handles the rest.
+For engineers working with Palantir Foundry, this model will feel immediately familiar.
+
+What is Spark Declarative Pipelines (SDP)?
 Spark Declarative Pipelines (SDP) is a declarative framework for building reliable, maintainable, and testable data pipelines on Apache Spark.
-Instead of focusing on:
-	•	job ordering
-	•	orchestration logic
-	•	retries and failure handling
-SDP allows you to focus on:
-	•	what datasets should exist
-	•	what transformations define those datasets
-Spark automatically handles:
-	•	execution orchestration
-	•	dependency resolution
-	•	compute management
-	•	incremental processing
-	•	error handling
-	
-This shift from execution‑first to intent‑first is exactly the philosophy Palantir Foundry has been built on for years.
+Rather than writing orchestration logic, SDP lets you describe intent:
+	•	What datasets should exist
+	•	What transformations define them
+Spark automatically manages:
+	•	Dependency resolution
+	•	Execution ordering
+	•	Incremental processing
+	•	Error handling
+	•	Parallelization
+This mirrors the Palantir Foundry philosophy:
+  Image Declare the data product. Let the platform manage execution.
+​
 
-## What SDP Supports
-SDP is designed for both batch and streaming workloads, including:
-	•	Cloud storage ingestion\ Amazon S3, Azure ADLS Gen2, Google Cloud Storage
-	•	Message‑bus ingestion\ Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure EventHub
+What SDP Supports
+SDP is designed for both batch and streaming workloads and supports common enterprise use cases:
+	•	Data ingestion from cloud storage\(Amazon S3, Azure ADLS Gen2, Google Cloud Storage)
+	•	Data ingestion from message buses\(Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure EventHub)
 	•	Incremental batch and streaming transformations
-These are the same primitives we commonly use in Palantir Foundry — but here they are expressed directly in Spark’s core programming model.
 
+Why SDP Matters (Especially at Palantir)
+Palantir data platforms emphasize:
+	•	Dataset lineage
+	•	Ontology‑driven modeling
+	•	Incremental recomputation
+	•	A strict separation between what data represents and how it is computed
+SDP brings these same principles directly into open‑source Spark.
+  Image Foundry‑style pipeline semantics become native Spark semantics with SDP.
+​
 
+Dataflow Graph
+Every SDP pipeline is represented as a dataflow graph:
+	•	Nodes → datasets (tables or views)
+	•	Edges → flows (transformations)
+Spark automatically:
+	•	Builds the DAG
+	•	Resolves dependencies
+	•	Executes flows in the correct order
+	•	Parallelizes execution when possible
+No explicit orchestration is required.
 
-
+Key Concepts in SDP
+Flows
+A flow is the fundamental unit of data processing in SDP.
+A flow:
+	•	Reads from a source
+	•	Applies user‑defined logic
+	•	Writes to a target dataset
+	•	Supports both batch and streaming semantics
 
 
 # SDP Examples in Reinsurance

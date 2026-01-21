@@ -146,8 +146,7 @@ Spark:
 
 
 # Programming with SDP in SQL (Reinsurance Examples)
-## Creating a Materialized View (Batch)
- 
+## Creating a Materialized View (Batch) 
 ```sql
 CREATE MATERIALIZED VIEW policiesmv
 AS
@@ -225,7 +224,8 @@ FROM claimsenrichedmv e
 LEFT JOIN treatiesmv t
   ON e.treatyid = t.treatyid
 GROUP BY e.treatyid, e.lossdate;
-``` '
+```
+
 ### Daily treaty loss (final analytics):
 ```sql 
 CREATE MATERIALIZED VIEW dailytreatylossesmv
